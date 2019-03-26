@@ -10,8 +10,14 @@ def debugSomething():
     print("it founds well ( -_-)")
 
 
+class Haferman_section:
+    """generate a haferman area"""
+
+    def __init__(self):
+        
+
 class Aplication:
-    'generate GUI'
+    """generate GUI"""
 
     def __init__(self):
         self.root_window = Tk()
@@ -73,24 +79,12 @@ class Sierspinski_carpet(Aplication):
 
 
 class Haferman_carpet(Aplication):
-    """generate Sierspinski_carpet panel"""
+    """generate Haferman_carpet panel"""
 
     def fill_carpet(self, cuad,n):
-        w = cuad[2]-cuad[0]
-        wc = w/3
-        if (n != 0):
-            self.fill_carpet([cuad[0], cuad[1], cuad[0]+wc, cuad[1]+wc], n-1)
-            self.fill_carpet([cuad[0]+wc, cuad[1], cuad[0]+wc*2, cuad[1]+wc], n-1)
-            self.fill_carpet([cuad[0]+wc*2, cuad[1], cuad[0]+w, cuad[1]+wc], n-1)
-            self.fill_carpet([cuad[0], cuad[1]+wc, cuad[0]+wc, cuad[1]+wc*2], n-1)
-            #self.fill_carpet([cuad[0]+wc, cuad[1]+wc, cuad[0]+wc*2, cuad[1]+wc*2], n-1)
-            self.fill_carpet([cuad[0]+wc*2, cuad[1]+wc, cuad[0]+w, cuad[1]+wc*2], n-1)
-            self.fill_carpet([cuad[0], cuad[1]+wc*2, cuad[0]+wc, cuad[1]+w], n-1)
-            self.fill_carpet([cuad[0]+wc, cuad[1]+wc*2, cuad[0]+wc*2, cuad[1]+w], n-1)
-            self.fill_carpet([cuad[0]+wc*2, cuad[1]+wc*2, cuad[0]+w, cuad[1]+w], n-1)
+        pass
 
-        self.panel.create_rectangle(cuad[0]+wc, cuad[1]+wc, cuad[2]-wc, cuad[3]-wc, fill="red")
-            
+
     def startpage(self):
         self.root_window.title("Fractal - Sierspinski / Ricardo Guevara")
         self.root_window.geometry("650x650")

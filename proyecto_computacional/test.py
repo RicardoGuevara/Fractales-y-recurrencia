@@ -13,8 +13,24 @@ def debugSomething():
 class Haferman_section:
     """generate a haferman area"""
 
-    def __init__(self):
+    def __init__(self, color = "white"):
+        self.color = color
+        if (color == "white"):
+            self.sons = [[0,0,0],[0,0,0],[0,0,0]]
+        else:
+            self.sons = [[1,0,1],[0,1,0],[1,0,1]]
         
+    def draw_me(self, x0, y0, panel = Canvas(), w = "600"):
+        for i in self.sons:
+            for j in i:
+                if (j == 0):
+                    panel.create_rectangle(x0,y0,x0+w,y0+w,fill="black")
+                else:
+                    panel.create_rectangle(x0,y0,x0+w,y0+w,fill="white")
+                
+
+
+
 
 class Aplication:
     """generate GUI"""
@@ -82,7 +98,7 @@ class Haferman_carpet(Aplication):
     """generate Haferman_carpet panel"""
 
     def fill_carpet(self, cuad,n):
-        pass
+        Haferman_section().draw_me(0,0,self.panel,600)
 
 
     def startpage(self):
@@ -99,7 +115,7 @@ class Haferman_carpet(Aplication):
 def sc_gui_loader():
     logging.debug("hilo de vtn lanzado")
 
-    scwd = Sierspinski_carpet()
+    scwd = Haferman_carpet()
     scwd.startpage()
     scwd.generate()
 

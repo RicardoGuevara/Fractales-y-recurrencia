@@ -11,6 +11,9 @@ class BinGenerator:
     def __init__(self):
         self.strings00 = []
         self.strings01 = []
+        self.strings00_01 = []
+        self.strings00_11 = []
+        self.strter00 = []
         
     def binary_strings00(self,n,str_ant):
         if (n == 0):
@@ -34,6 +37,40 @@ class BinGenerator:
                     self.binary_strings01(n-1,str_ant+"1")
             self.binary_strings01(n-1,str_ant+"0")
 
+    def binary_strings00_01(self,n,str_ant):
+        if (n == 0):
+            self.strings00_01.append(str_ant)
+        else:
+            if (str_ant == ""):
+                self.binary_strings00_01(n-1,str_ant+"1")
+            elif (str_ant[-1] != "0"):
+                self.binary_strings00_01(n-1,str_ant+"1")
+                self.binary_strings00_01(n-1,str_ant+"0")
+
+    def binary_strings00_11(self,n,str_ant):
+        if (n == 0):
+            self.strings00_11.append(str_ant)
+        else:
+            if (str_ant == ""):
+                self.binary_strings00_11(n-1,str_ant+"1")
+                self.binary_strings00_11(n-1,str_ant+"0")
+            elif (str_ant[-1] == "1"):
+                self.binary_strings00_11(n-1,str_ant+"0")
+            elif (str_ant[-1] == "0"):
+                self.binary_strings00_11(n-1,str_ant+"1")
+
+    def ternary_strings00(self,n,str_ant):
+        if (n == 0):
+            self.strter00.append(str_ant)
+        else:
+            if (str_ant == ""):
+                self.ternary_strings00(n-1,str_ant+"0")
+            else:
+                if (str_ant[-1] != "0"):
+                    self.ternary_strings00(n-1,str_ant+"0")
+            self.ternary_strings00(n-1,str_ant+"1")
+            self.ternary_strings00(n-1,str_ant+"2")
+
 
     def get_binaries00(self,length):
         self.strings00 = []
@@ -44,6 +81,21 @@ class BinGenerator:
         self.strings01 = []
         self.binary_strings01(length,"")
         return self.strings01
+
+    def get_binaries00_01(self,length):
+        self.strings00_01 = []
+        self.binary_strings00_01(length,"")
+        return self.strings00_01
+
+    def get_binaries00_11(self,length):
+        self.strings00_11 = []
+        self.binary_strings00_11(length,"")
+        return self.strings00_11
+
+    def get_ternaries00(self,length):
+        self.strter00 = []
+        self.ternary_strings00(length,"")
+        return self.strter00
 
 class Aplication:
     """generate GUI"""
@@ -90,6 +142,21 @@ class Aplication:
         elements = BinGenerator().get_binaries01(int(self.input_n.get()))
         for z in elements:
             self.list01.insert (END,z)
+
+        self.list00_01.delete(0, END)
+        elements = BinGenerator().get_binaries00_01(int(self.input_n.get()))
+        for z in elements:
+            self.list00_01.insert (END,z)
+
+        self.list00_11.delete(0, END)
+        elements = BinGenerator().get_binaries00_11(int(self.input_n.get()))
+        for z in elements:
+            self.list00_11.insert (END,z)
+
+        self.lister00.delete(0, END)
+        elements = BinGenerator().get_ternaries00(int(self.input_n.get()))
+        for z in elements:
+            self.lister00.insert (END,z)
         #self.pack()        
 
     def generate(self):
@@ -98,24 +165,35 @@ class Aplication:
 
     def startpage(self):
         self.root_window.title("Proyecto computacional 2019 - 01 | cadenas binarias")
-        self.root_window.geometry("400x300")
+        self.root_window.geometry("700x500")
         self.addLabel("CADENAS BINARIAS",he_in=2,wd_in=100)
         self.len_label = self.addLabel("Longitud:",he_in=2,wd_in=30)
-        self.tt1 = self.addLabel("no contienen 00:",he_in=2,wd_in=30)
-        self.tt2 = self.addLabel("no contienen 01:",he_in=2,wd_in=30)
+        self.tt1 = self.addLabel("binarias sin 00:",he_in=2,wd_in=30)
+        self.tt2 = self.addLabel("binarias sin 01:",he_in=2,wd_in=30)
+        self.tt3 = self.addLabel("binarias sin 00 ni 01:",he_in=2,wd_in=30)
+        self.tt4 = self.addLabel("binarias sin 00 ni 11:",he_in=2,wd_in=30)
+        self.tt5 = self.addLabel("ternarias sin 00:",he_in=2,wd_in=30)
         self.input_n = self.addEntry()
         self.start_btn = self.addButton(wd_in = 20, he_in = 3, label_text="COMENZAR", function=self.calc_binaries)
         self.list00 = Listbox(self.root_window)
         self.list01 = Listbox(self.root_window)
-
+        self.list00_01 = Listbox(self.root_window)
+        self.list00_11 = Listbox(self.root_window)
+        self.lister00 = Listbox(self.root_window)
 
         self.len_label.grid(row=0, column=0, columnspan=1)
         self.input_n.grid(row=1, column=0, columnspan=1)
         self.start_btn.grid(row=0, column=1, columnspan=1, rowspan=2)
         self.tt1.grid(row=2, column=0, columnspan=1)
         self.tt2.grid(row=2, column=1, columnspan=1)
+        self.tt3.grid(row=2, column=2, columnspan=1)
+        self.tt4.grid(row=4, column=0, columnspan=1)
+        self.tt5.grid(row=4, column=1, columnspan=1)
         self.list00.grid(row=3, column=0, columnspan=1,rowspan=1)
         self.list01.grid(row=3, column=1, columnspan=1,rowspan=1)
+        self.list00_01.grid(row=3, column=2, columnspan=1,rowspan=1)
+        self.list00_11.grid(row=5, column=0, columnspan=1,rowspan=1)
+        self.lister00.grid(row=5, column=1, columnspan=1,rowspan=1)
 
 
         #self.root_window.pack()

@@ -14,6 +14,8 @@ class BinGenerator:
         self.strings00_01 = []
         self.strings00_11 = []
         self.strter00 = []
+        self.strter22 = []
+        self.cuatcreciente = []
         
     def binary_strings00(self,n,str_ant):
         if (n == 0):
@@ -71,6 +73,34 @@ class BinGenerator:
             self.ternary_strings00(n-1,str_ant+"1")
             self.ternary_strings00(n-1,str_ant+"2")
 
+    def ternary_strings22(self,n,str_ant):
+        if (n == 0):
+            self.strter22.append(str_ant)
+        else:
+            if (str_ant == ""):
+                self.ternary_strings22(n-1,str_ant+"2")
+            else:
+                if (str_ant[-1] != "2"):
+                    self.ternary_strings22(n-1,str_ant+"2")
+            self.ternary_strings22(n-1,str_ant+"1")
+            self.ternary_strings22(n-1,str_ant+"0")
+    
+    def cuaternary_creciente(self,n,str_ant):
+        if (n == 0):
+            self.cuatcreciente.append(str_ant)
+        else:
+            if (str_ant == ""):
+                    self.cuaternary_creciente(n-1,str_ant+"0")
+                    self.cuaternary_creciente(n-1,str_ant+"1")
+                    self.cuaternary_creciente(n-1,str_ant+"2")
+            else:    
+                if (str_ant[-1] != "3"):
+                    self.cuaternary_creciente(n-1,str_ant+"2")
+                if (str_ant[-1] != "2" and str_ant[-1] != "3"):
+                    self.cuaternary_creciente(n-1,str_ant+"1")
+                if (str_ant[-1] != "1" and str_ant[-1] != "2" and str_ant[-1] != "3"):
+                    self.cuaternary_creciente(n-1,str_ant+"0")
+            self.cuaternary_creciente(n-1,str_ant+"3")
 
     def get_binaries00(self,length):
         self.strings00 = []
@@ -96,6 +126,16 @@ class BinGenerator:
         self.strter00 = []
         self.ternary_strings00(length,"")
         return self.strter00
+
+    def get_ternaries22(self,length):
+        self.strter22 = []
+        self.ternary_strings22(length,"")
+        return self.strter22
+
+    def get_cuatcrec(self,length):
+        self.cuatcreciente = []
+        self.cuaternary_creciente(length,"")
+        return self.cuatcreciente
 
 class Aplication:
     """generate GUI"""
@@ -131,48 +171,81 @@ class Aplication:
         listbox.pack()
         return listbox
 
+    def formatResults(self):
+        self.recbi00 = self.addLabel("binarias sin 00:   "+str(self.bingen.strings00.__len__()),he_in=1,wd_in=50)
+        self.recbi01 = self.addLabel("binarias sin 01:   "+str(self.bingen.strings01.__len__()),he_in=1,wd_in=50)
+        self.recbi00_01 = self.addLabel("binarias sin 00 ni 01:   "+str(self.bingen.strings00_01.__len__()),he_in=1,wd_in=50)
+        self.recbi00_11 = self.addLabel("binarias sin 00 ni 11:   "+str(self.bingen.strings00_11.__len__()),he_in=1,wd_in=50)
+        self.recte00 = self.addLabel("ternarias sin 00:   "+str(self.bingen.strter00.__len__()),he_in=1,wd_in=50)
+        self.recte22 = self.addLabel("ternarias sin 22:   "+str(self.bingen.strter22.__len__()),he_in=1,wd_in=50)
+        self.reccuat = self.addLabel("cuaternarias crecientes:   "+str(self.bingen.cuatcreciente.__len__()),he_in=1,wd_in=50)
+
+        self.recbi00.grid(row=6, column=1, columnspan=2,rowspan=1)
+        self.recbi01.grid(row=7, column=1, columnspan=2,rowspan=1)
+        self.recbi00_01.grid(row=8, column=1, columnspan=2,rowspan=1)
+        self.recbi00_11.grid(row=9, column=1, columnspan=2,rowspan=1)
+        self.recte00.grid(row=10, column=1, columnspan=2,rowspan=1)
+        self.recte22.grid(row=11, column=1, columnspan=2,rowspan=1)
+        self.reccuat.grid(row=12, column=1, columnspan=2,rowspan=1)
+
+
     def calc_binaries(self):
 
         self.list00.delete(0, END)
-        elements = BinGenerator().get_binaries00(int(self.input_n.get()))
+        elements = self.bingen.get_binaries00(int(self.input_n.get()))
         for x in elements:
             self.list00.insert (END,x)
 
         self.list01.delete(0, END)
-        elements = BinGenerator().get_binaries01(int(self.input_n.get()))
+        elements = self.bingen.get_binaries01(int(self.input_n.get()))
         for z in elements:
             self.list01.insert (END,z)
 
         self.list00_01.delete(0, END)
-        elements = BinGenerator().get_binaries00_01(int(self.input_n.get()))
+        elements = self.bingen.get_binaries00_01(int(self.input_n.get()))
         for z in elements:
             self.list00_01.insert (END,z)
 
         self.list00_11.delete(0, END)
-        elements = BinGenerator().get_binaries00_11(int(self.input_n.get()))
+        elements = self.bingen.get_binaries00_11(int(self.input_n.get()))
         for z in elements:
             self.list00_11.insert (END,z)
 
         self.lister00.delete(0, END)
-        elements = BinGenerator().get_ternaries00(int(self.input_n.get()))
+        elements = self.bingen.get_ternaries00(int(self.input_n.get()))
         for z in elements:
             self.lister00.insert (END,z)
-        #self.pack()        
+
+        self.lister22.delete(0, END)
+        elements = self.bingen.get_ternaries22(int(self.input_n.get()))
+        for z in elements:
+            self.lister22.insert (END,z)
+
+        self.cuatcreciente.delete(0, END)
+        elements = self.bingen.get_cuatcrec(int(self.input_n.get()))
+        for z in elements:
+            self.cuatcreciente.insert (END,z)
+
+        self.formatResults()
 
     def generate(self):
         self.root_window.mainloop()
         self.root_window.destroy()
 
     def startpage(self):
+        self.bingen = BinGenerator()
         self.root_window.title("Proyecto computacional 2019 - 01 | cadenas binarias")
-        self.root_window.geometry("700x500")
+        self.root_window.geometry("700x750")
         self.addLabel("CADENAS BINARIAS",he_in=2,wd_in=100)
-        self.len_label = self.addLabel("Longitud:",he_in=2,wd_in=30)
+        self.len_label = self.addLabel("LONGITUD:",he_in=2,wd_in=30)
+        self.separador = self.addLabel("",he_in=2,wd_in=100, bcg="BLUE")
         self.tt1 = self.addLabel("binarias sin 00:",he_in=2,wd_in=30)
         self.tt2 = self.addLabel("binarias sin 01:",he_in=2,wd_in=30)
         self.tt3 = self.addLabel("binarias sin 00 ni 01:",he_in=2,wd_in=30)
         self.tt4 = self.addLabel("binarias sin 00 ni 11:",he_in=2,wd_in=30)
         self.tt5 = self.addLabel("ternarias sin 00:",he_in=2,wd_in=30)
+        self.tt6 = self.addLabel("ternarias sin 22:",he_in=2,wd_in=30)
+        self.tt7 = self.addLabel("cuaternaria creciente:",he_in=2,wd_in=30)
         self.input_n = self.addEntry()
         self.start_btn = self.addButton(wd_in = 20, he_in = 3, label_text="COMENZAR", function=self.calc_binaries)
         self.list00 = Listbox(self.root_window)
@@ -180,21 +253,29 @@ class Aplication:
         self.list00_01 = Listbox(self.root_window)
         self.list00_11 = Listbox(self.root_window)
         self.lister00 = Listbox(self.root_window)
+        self.lister22 = Listbox(self.root_window)
+        self.cuatcreciente = Listbox(self.root_window)
 
-        self.len_label.grid(row=0, column=0, columnspan=1)
-        self.input_n.grid(row=1, column=0, columnspan=1)
-        self.start_btn.grid(row=0, column=1, columnspan=1, rowspan=2)
+        self.len_label.grid(row=0, column=0, columnspan=1, rowspan=1)
+        self.input_n.grid(row=0, column=1, columnspan=1, rowspan=1)
+        self.start_btn.grid(row=0, column=2, columnspan=1, rowspan=1)
+        self.separador.grid(row=1, column=0, columnspan=3, rowspan=1)
         self.tt1.grid(row=2, column=0, columnspan=1)
         self.tt2.grid(row=2, column=1, columnspan=1)
         self.tt3.grid(row=2, column=2, columnspan=1)
         self.tt4.grid(row=4, column=0, columnspan=1)
         self.tt5.grid(row=4, column=1, columnspan=1)
+        self.tt6.grid(row=4, column=2, columnspan=1)
+        self.tt7.grid(row=6, column=0, columnspan=1)
         self.list00.grid(row=3, column=0, columnspan=1,rowspan=1)
         self.list01.grid(row=3, column=1, columnspan=1,rowspan=1)
         self.list00_01.grid(row=3, column=2, columnspan=1,rowspan=1)
         self.list00_11.grid(row=5, column=0, columnspan=1,rowspan=1)
         self.lister00.grid(row=5, column=1, columnspan=1,rowspan=1)
+        self.lister22.grid(row=5, column=2, columnspan=1,rowspan=1)
+        self.cuatcreciente.grid(row=7, column=0, columnspan=1,rowspan=7)
 
+        self.formatResults()
 
         #self.root_window.pack()
 
